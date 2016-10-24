@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>我的折叠菜单</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        a{
+            text-decoration: none;
+        }
+        #menu{
+            width: 200px;
+            background: #00ffff;
+        }
+        #menu h3{
+            width: 100px;
+            background: #0000ff;
+            height: 40px;
+            line-height: 40px;
+            cursor: pointer;
+        }
+        #menu .sub-menu{
+            display: none;
+            border:solid 3px #000000 ;
+        }
+
+    </style>
+</head>
+<body>
+<ul id="menu">
+    <li class="main-menu">
+        <h3>haha</h3>
+        <ul class="sub-menu">
+            <li><a href="#">001</a></li>
+            <li><a href="#">002</a></li>
+            <li><a href="#">003</a></li>
+        </ul>
+    </li>
+    <li class="main-menu">
+        <h3  >hehe</h3>
+        <ul class="sub-menu">
+            <li><a href="#">001</a></li>
+            <li><a href="#">002</a></li>
+            <li><a href="#">003</a></li>
+        </ul>
+    </li>
+</ul>
+<script>
+    var oMenu = document.getElementById("menu");
+    var ah3 = oMenu.getElementsByTagName("h3");
+    var aul = oMenu.getElementsByTagName("ul");
+    for(var i = 0 ;i < ah3.length;i++){
+        ah3[i].index=i;
+        ah3[i].biaoqian=false;
+        ah3[i].onclick = function(){
+            if(this.biaoqian){
+                aul[ this.index ].style.display="block";
+            }else{
+                aul[ this.index ].style.display="none";
+            }
+            this.biaoqian = !this.biaoqian;
+        };
+    }
+</script>
+</body>
+</html>
