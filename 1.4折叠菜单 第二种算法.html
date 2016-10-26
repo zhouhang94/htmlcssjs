@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>大魔王</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        a{
+            text-decoration: none;
+        }
+        #menu{
+            width: 290px;
+            border: solid #000000 1px;
+        }
+        #menu h3{
+            background: greenyellow;
+            color: darkred;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            cursor: pointer;
+
+        }
+        #menu .main-menu {
+            background: aquamarine;
+            display: none;
+        }
+        #menu .sub-menu{
+            background: #dddddd ;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<ul id="menu">
+    <li>
+        <h3>我的名字是</h3>
+
+        <ul  class="main-menu">
+            <li><a href="#">孔维亮</a></li>
+            <li><a href="#">田师艺</a></li>
+            <li><a href="#">周航</a></li>
+        </ul>
+        <ul class="sub-menu">
+            <li><p id="qqq">他这么聪明我怎么能是他！！！</p></li>
+            <li><p>他这么美貌我不可能能是他！！！</p></li>
+            <li><p>对这就是我，即聪明又美貌贼牛逼！！！</p></li>
+        </ul>
+    </li>
+
+    <li style="border-top:solid #000000 1px ">
+        <h3 >我的星座是</h3>
+
+        <ul  class="main-menu">
+            <li><a href="#">巨蟹座</a></li>
+            <li><a href="#">射手座</a></li>
+            <li><a href="#">天蝎座</a></li>
+        </ul>
+        <ul class="sub-menu">
+            <li><p>这星座可是小白痴！！！</p></li>
+            <li><p>这星座可是小弱智！！！</p></li>
+            <li><p>对这就是我，完美！！！</p></li>
+        </ul>
+    </li>
+</ul>
+<script>
+    var omenu = document.getElementById('menu');
+    var ali = omenu.children;
+    for( var i= 0 ; i < ali.length ; i++){
+        ali[i].bFlag=false;
+        ali[i].onclick = function(){
+            if(this.bFlag){
+                this.children[1].style.display='none';
+            }else{
+                this.children[1].style.display='block';
+            }
+            this.bFlag=!this.bFlag;
+        }
+    }
+</script>
+
+</body>
+</html>
