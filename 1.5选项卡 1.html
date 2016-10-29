@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>选项卡 last法</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    ul{
+        list-style: none;
+    }
+    a{
+        text-decoration: none;
+    }
+    #container{
+        width: 400px;
+        height: 250px;
+        margin: 80px auto;
+    }
+    #menu{
+        height: 30px;
+    }
+    #menu li{
+        width: 100px;
+        height: 30px;
+        background: #cccccc;
+        margin-right: 10px;
+        float: left;
+        text-align: center;
+        line-height: 30px;
+    }
+    #menu .selected{
+        background: #000000;
+        color: #ffffff;
+    }
+    #container div{
+        background: #cccccc;
+        height: 220px;
+        border-top: 1px solid #000000;
+    }
+
+</style>
+<body>
+<div id="container">
+    <ul id="menu">
+        <li class="selected">js</li>
+        <li>html</li>
+        <li>css</li>
+    </ul>
+    <div id="content">
+        11111111111
+    </div>
+</div>
+<script>
+    var arr = [1111111111,222222222222,333333333333];
+    var oMenu = document.getElementById('menu');
+    var ali = oMenu.getElementsByTagName('li');
+    var oContent = document.getElementById('content');
+    var last = 0;
+    for(var i=0;i<ali.length; i++){
+        ali[i].index=i;
+        ali[i].onclick = function(){
+            ali[last].className= "";
+            this.className='selected';
+            last=this.index;
+            oContent.innerHTML = arr[this.index];
+        }
+    }
+</script>
+</body>
+</html>
