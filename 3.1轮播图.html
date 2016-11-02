@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>轮播图练习..</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        a{
+            text-decoration: none;
+        }
+        #container{
+            width:800px;
+            height: 400px;
+            margin:20px auto;
+            background: red;
+            position:relative;
+        }
+
+        #img img{
+            width: 800px;
+            height:400px;
+        }
+        #img a{
+            display: none;
+        }
+        #img .selected{
+            display: block;
+        }
+        #nav li,span{
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            background: #000000;
+            color: #ffffff;
+            float: left;
+            margin-right: 15px;
+            text-align: center;
+            line-height: 30px;
+        }
+        #nav{
+            position:absolute;
+            right: 30px;
+            bottom: 30px;
+        }
+        #arrows{
+            position:absolute;
+            left: 30px;
+            bottom: 30px;
+        }
+        #nav .selected{
+            background: orange;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="container">
+    <ul id="nav">
+        <li class="selected">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+    </ul>
+    <div id="img">
+        <a class="selected" href="#"><img src="img/333.jpg"></a>
+        <a href="#"><img src="img/222.jpg"></a>
+        <a href="#"><img src="img/111.jpg"></a>
+        <a href="#"><img src="img/444.jpg"></a>
+    </div>
+    <div id="arrows">
+        <span id="lt"> &lt </span>
+        <span id="gt"> &gt </span>
+    </div>
+</div>
+
+<script>
+    var oContainer = document.getElementById('container');
+    var oul = document.getElementById('nav');
+    var ali = oul.getElementsByTagName('li');
+    var odiv = document.getElementById('img');
+    var aimg = odiv.getElementsByTagName('a');
+
+    var olt = document.getElementById('lt');
+    var ogt = document.getElementById('gt');
+    //    var last = 0;
+
+    var xh = 0;
+
+    for(var i=0;i<ali.length;i++){
+        ali[i].index=i;
+
+        ali[i].onmouseover=function(){
+            changeimg(this.index);
+            xh=this.index;
+        }
+    }
+    function changeimg (elem){
+        for(var j=0;j<ali.length;j++){
+            ali[j].className='';
+            aimg[j].className='';
+        }
+        ali[elem].className='selected';//this=ali[this.index]
+        aimg[elem].className='selected';
+    }
+
+    ogt.onclick=function(){
+        xh++;
+        xh=xh%4
+//            if(xh==4){
+//                xh=0;
+//            }
+        changeimg(xh);
+    };
+    olt.onclick=function(){
+        xh--;
+        xh=(xh+4)%4;
+        changeimg(xh);
+    };
+    var timer;
+    function run(){   //这又封装了一个函数
+        timer=setInterval(
+                function(){
+                    ogt.onclick(); //注意括号
+                },1500
+        )
+    };
+    run();
+    oContainer.onmouseover=function(){
+        clearInterval(timer);
+    };
+    oContainer.onmouseout=function(){
+        run();
+    }
+
+
+</script>
+
+
+</body>
+</html>
