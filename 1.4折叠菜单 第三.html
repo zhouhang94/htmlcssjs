@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>我的折叠菜单</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        a{
+            text-decoration: none;
+        }
+        #menu{
+            width: 200px;
+            background: #00ffff;
+        }
+        #menu h3{
+            width: 100px;
+            background: #0000ff;
+            height: 40px;
+            line-height: 40px;
+            cursor: pointer;
+        }
+        #menu .sub-menu{
+            display: none;
+            border:solid 3px #000000 ;
+        }
+
+    </style>
+</head>
+<body>
+<ul id="menu">
+    <li class="main-menu">
+        <h3>haha</h3>
+        <ul class="sub-menu">
+            <li><a href="#">001</a></li>
+            <li><a href="#">002</a></li>
+            <li><a href="#">003</a></li>
+        </ul>
+    </li>
+    <li class="main-menu">
+        <h3  >hehe</h3>
+        <ul class="sub-menu">
+            <li><a href="#">001</a></li>
+            <li><a href="#">002</a></li>
+            <li><a href="#">003</a></li>
+        </ul>
+    </li>
+</ul>
+<script>//思路：兄弟元素间，通过第一个元素，找下一个元素节点
+var omenu = document.getElementById('menu');
+var ah3 = omenu.getElementsByTagName('h3');
+for( var i= 0 ; i < ah3.length ; i++){
+    ah3[i].onclick = function(){
+        var asubmenu =next(this);
+        if(asubmenu.style.display=="block"){
+            asubmenu.style.display='none';
+        }else{
+            asubmenu.style.display='block';
+        }
+    };
+}
+function next(elem){  //封装函数 功能：找下一个元素节点的函数  next是函数名  elem形式参数
+    do{
+        elem = elem.nextSibling;
+    }while(elem  &&  elem.nodeType!=1);   //while何时终止？？如果为真则继续循环；如果为假, 则终止循环。因此, do-while循环至少要执行一次循环语句
+    // 直接写elem意思就是判断他是否有效 即=   elem != null
+    return elem;
+}
+</script>
+</body>
+</html>
