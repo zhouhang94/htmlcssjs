@@ -56,7 +56,7 @@ var omenu = document.getElementById('menu');
 var ah3 = omenu.getElementsByTagName('h3');
 for( var i= 0 ; i < ah3.length ; i++){
     ah3[i].onclick = function(){
-        var asubmenu =next(this);
+        var asubmenu =next(this);   //再给他生命个对象
         if(asubmenu.style.display=="block"){
             asubmenu.style.display='none';
         }else{
