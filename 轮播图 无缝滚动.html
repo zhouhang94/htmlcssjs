@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>轮播图练习..</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        a{
+            text-decoration: none;
+        }
+        #container{
+            width:800px;
+            height: 400px;
+            margin:20px auto;
+            background: red;
+            position:relative;
+            overflow: hidden;
+        }
+        #concent{
+            width: 3200px;
+            height: 400px;
+            position:absolute;
+            /*margin-left: 0px ;  /!*marhin-left 不需要对他定位？？*!/*/
+            left: 0px;
+        }
+        #concent img{
+            width: 800px;
+            height:400px;
+            float: left;
+
+        }
+        /*#concent .selected{*/
+            /*position:absolute;*/
+            /*margin-left: 80px;*/
+
+        /*}*/
+        #container li,span{
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            background: #000000;
+            color: #ffffff;
+            float: left;
+            margin-right: 15px;
+            text-align: center;
+            line-height: 30px;
+        }
+        #tab{
+            position:absolute;
+            right: 30px;
+            bottom: 30px;
+            z-index: 9999;
+        }
+        #arrows{
+            position:absolute;
+            left: 30px;
+            bottom: 30px;
+        }
+        #tab .selected{
+            background: orange;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="container">
+    <ul id="tab">
+        <li class="selected">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+    </ul>
+    <div id="concent">
+        <a class="selected" href="#"><img src="img/333.jpg"></a>
+        <a href="#"><img src="img/222.jpg"></a>
+        <a href="#"><img src="img/111.jpg"></a>
+        <a href="#"><img src="img/444.jpg"></a>
+        <!--<a href="#"><img src="img/333.jpg"></a>-->
+    </div>
+    <div id="arrows">
+        <span id="prev"> &lt </span>
+        <span id="next"> &gt </span>
+    </div>
+</div>
+<script src="jslib.js"></script>
+<script>
+    var oContainer = document.getElementById('container');
+    var oTab = document.getElementById('tab');
+    var aLi = oTab.getElementsByTagName('li');
+    var oConcent = document.getElementById('concent');
+    var aImg = oConcent.getElementsByTagName('img');
+    var oNext = document.getElementById('next');
+    var oPrev = document.getElementById('prev');
+
+    var iImgwidth =aImg[0].offsetWidth;
+//    var aa = aImg[0].cloneNode();
+    oConcent.appendChild(aImg[0].cloneNode());
+    oConcent.style.width = iImgwidth*aImg.length + 'px';
+
+    var iNow=0;
+
+    for(var i=0; i<aLi.length; i++){
+        aLi[i].index=i;
+
+        aLi[i].onmousemove=function(){
+            changeimg(this.index)
+        }
+    };
+    function changeimg (elem){
+        iNow = elem;
+        for(var i=0; i<aLi.length; i++){
+            aLi[i].className='';
+            aLi[iNow==aLi.length? 0 : iNow].className='selected';//注意inow
+        }
+        animate(oConcent,{left:elem*-iImgwidth})
+    }
+
+
+    oNext.onclick = function () {      //注意这里inow的逻辑
+        iNow++;
+        if(iNow==aImg.length){
+            iNow=1;
+            oConcent.style.left = 0;
+        }
+        changeimg(iNow);
+    };
+    oPrev.onclick = function () {
+        iNow--;
+        if(iNow==-1){
+            iNow=3;
+            oConcent.style.left = -iImgwidth*4+'px';
+        }
+
+        changeimg(iNow);
+    };
+    var timer;
+    function run(){
+        timer=setInterval(
+                function(){
+                    oNext.onclick(); //注意括号
+                },1500
+        )
+    };
+    run();
+    oContainer.onmouseover=function(){
+        clearInterval(timer);
+    };
+    oContainer.onmouseout=function(){
+        run();
+    }
+
+</script>
+
+
+</body>
+</html>
