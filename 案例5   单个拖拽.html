@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        #div1{
+            width: 200px;
+            height: 200px;
+            background: #000000;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+<div id="div1">
+    haha
+</div>
+<script>
+     var oDiv = document.getElementById('div1');
+//    oDiv.onmousedown = function (e){
+//        e = e||window.event;  //能力检测
+//        iDisX = e.clientX-oDiv.offsetLeft;  //鼠标到div距离
+//        iDisY = e.clientY-oDiv.offsetTop;
+//        document.onmousemove = function(e){
+//            e = e||window.event;
+//            var iLeft = e.clientX-iDisX;   //div到body的距离
+//            var iTop = e.clientY-iDisY;
+//            if( iLeft <20 ){    //磁力吸附
+//                iLeft = 0;
+//            }
+//            if(iTop<20){
+//                iTop = 0;
+//            }
+//            if(iLeft > document.documentElement.clientWidth-oDiv.offsetWidth-20){
+//                iLeft= document.documentElement.clientWidth-oDiv.offsetWidth;
+//            }
+//            if(iTop > document.documentElement.clientHeight-oDiv.offsetHeight-20){
+//                iTop= document.documentElement.clientHeight-oDiv.offsetHeight;
+//            }
+//            oDiv.style.left = iLeft+'px';
+//            oDiv.style.top = iTop+'px';
+//            return false;       //返回为false，意思是阻止默认
+//
+//
+//        };
+//        document.onmouseup = function(){
+//            document.onmousemove = null ;
+//            document.onmouseup = null ;
+//        }
+//    }
+     aa(oDiv);
+
+     function aa (elem){
+         elem.onmousedown = function (e){
+             e = e||window.event;  //能力检测
+             iDisX = e.clientX-elem.offsetLeft;  //鼠标到div距离
+             iDisY = e.clientY-elem.offsetTop;
+             document.onmousemove = function(e){
+                 e = e||window.event;
+                 var iLeft = e.clientX-iDisX;   //div到body的距离
+                 var iTop = e.clientY-iDisY;
+                if( iLeft <20 ){    //磁力吸附
+                    iLeft = 0;
+                }
+                if(iTop<20){
+                    iTop = 0;
+                }
+                if(iLeft > document.documentElement.clientWidth-elem.offsetWidth-20){
+                    iLeft= document.documentElement.clientWidth-elem.offsetWidth;
+                }
+                if(iTop > document.documentElement.clientHeight-elem.offsetHeight-20){
+                    iTop= document.documentElement.clientHeight-elem.offsetHeight;
+                }
+                 elem.style.left = iLeft+'px';
+                 elem.style.top = iTop+'px';
+                 return false;       //返回为false，意思是阻止默认
+
+
+             };
+             document.onmouseup = function(){
+                 document.onmousemove = null ;
+                 document.onmouseup = null ;
+             }
+         }
+     }
+</script>
+</body>
+</html>
