@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+
+        #div{
+            width: 100px;
+            height: 100px;
+            background: #ff0000;
+            position: absolute;
+            left: 100px;
+            top: 100px;
+        }
+        #target{
+            width: 100px;
+            height: 100px;
+            background: #00ff00;
+            margin: 200px auto;
+            position: relative;
+
+        }
+        .collide{
+            border:10px solid red;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="div">11111</div>
+<div id="target">22222</div>
+
+
+</body>
+<script>
+    var oDiv = document.getElementById('div');
+    var oTarget = document.getElementById('target');
+
+
+    drug(oDiv);
+    function drug (elem,e2){
+        elem.onmousedown = function (e){
+            e = e||window.event;  //能力检测
+            iDisX = e.clientX-elem.offsetLeft;  //鼠标到div距离
+            iDisY = e.clientY-elem.offsetTop;
+            document.onmousemove = function(e){
+                e = e||window.event;
+                var iLeft = e.clientX-iDisX;   //div到body的距离
+                var iTop = e.clientY-iDisY;
+
+                elem.style.left = iLeft+'px';
+                elem.style.top = iTop+'px';
+
+                if(iLeft>e2.offsetLeft+e2.offsetWidth || iLeft+elem.offsetWidth<e2.offsetLeft || iTop>e2.offsetTop+e2.offsetHeight || iTop+elem.offsetHeight<e2.offsetTop){
+                    e2.className = '';
+                }else{
+                    e2.className = 'collide';        //注意上面的逻辑，
+                }
+                return false;       //返回为false，意思是阻止默认
+            };
+            document.onmouseup = function(){
+                document.onmousemove = null ;    //这个等于null为什么没让classname清空
+                document.onmouseup = null ;
+            }
+        }
+    }
+</script>
+</html>
