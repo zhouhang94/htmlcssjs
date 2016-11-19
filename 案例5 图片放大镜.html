@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #small-box{
+            width: 600px;
+            height: 400px;
+            position: relative;
+        }
+        #small-pic{
+            width: 600px;
+            height: 400px;
+        }
+        #float{
+            width: 200px;
+            height: 200px;
+            background: #cccccc;
+            opacity: 0.5;
+            filter：alpha（opacity=50）;
+            position: absolute;
+            top: 0;
+            left : 0;
+            display: none;
+
+        }
+        #mask{    /*此mask 解决ie6/8的 不明原因的 闪烁问题 必须有背景颜色*/
+            width: 600px;
+            height: 400px;
+            background: #ccc;
+            position: absolute;
+            left:0;
+            top:0;
+            opacity: 0;
+        }
+        #big-box{
+            width: 600px;
+            height: 400px;
+            position: absolute;
+            left: 600px;
+            top:0;
+            overflow: hidden;
+            display: none;
+
+        }
+        #big-pic{
+            width: 1200px;
+            height: 800px;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <div id="small-box">
+       <img id="small-pic" src="img/222.jpg">
+        <div id="float"></div>
+        <div id="mask"></div>
+    </div>
+    <div id="big-box">
+        <img id="big-pic" src="img/222.jpg">
+    </div>
+</div>
+
+<script>
+    var oSmallBox = document.getElementById('small-box');
+    var oFloat = document.getElementById('float');
+    var oBigBox = document.getElementById('big-box');
+    var oBigPic = document.getElementById('big-pic');
+    oSmallBox.onmouseover = function(){
+        oFloat.style.display = 'block';
+    };
+    oSmallBox.onmousemove =function(e){
+        e = e || window.event;
+        var iLeft = e.clientX-(oFloat.offsetWidth/2); //时时的 小透明框 的位置
+        var iTop = e.clientY-(oFloat.offsetHeight/2);
+        if(iLeft<0){
+            iLeft=0;
+        }
+        if(iLeft>oSmallBox.offsetWidth-oFloat.offsetWidth){
+            iLeft=oSmallBox.offsetWidth-oFloat.offsetWidth;
+        }
+        if(iTop<0){
+            iTop=0;
+        }
+        if(iTop>oSmallBox.offsetHeight-oFloat.offsetHeight){
+            iTop=oSmallBox.offsetHeight-oFloat.offsetHeight;
+        }
+        oFloat.style.left = iLeft+'px';
+        oFloat.style.top = iTop+'px';
+
+        oBigBox.style.display = 'block';
+        var sFcaleX = iLeft/(oSmallBox.offsetWidth-oFloat.offsetWidth);
+        var sFcaleY = iTop/(oSmallBox.offsetHeight-oFloat.offsetHeight);
+        oBigPic.style.left = -(oBigPic.offsetWidth-oBigBox.offsetWidth)*sFcaleX+'px';
+        oBigPic.style.top = -(oBigPic.offsetHeight-oBigBox.offsetHeight)*sFcaleY+'px';
+
+        return false;
+    };
+    oSmallBox.onmouseout =function(){
+        oSmallBox.onmouseover=null;
+        oSmallBox.onmousemove = null;
+//        oFloat.style.display = 'none';
+//        oBigBox.style.display = 'none';
+    }
+</script>
+</body>
+</html>
