@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>照片墙  练习</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #container{
+            width: 680px ;
+            height: 510px;
+            background: aquamarine;
+            margin: 0 auto;
+            position: relative;
+        }
+        img{
+            width: 200px;
+            height: 150px;
+            margin: 10px;
+            float: left;
+            /*position: absolute;*/
+        }
+        .collide{
+            border: 2px blue solid;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <img src="img/1.jpg" alt=""/>
+    <img src="img/2.jpg" alt=""/>
+    <img src="img/3.jpg" alt=""/>
+    <img src="img/4.jpg" alt=""/>
+    <img src="img/5.jpg" alt=""/>
+    <img src="img/6.jpg" alt=""/>
+    <img src="img/7.jpg" alt=""/>
+    <img src="img/8.jpg" alt=""/>
+    <img src="img/9.jpg" alt=""/>
+</div>
+<script src="jslib.js"></script>
+<script>
+    var oContainer = document.getElementById('container');
+    var aImg = oContainer.getElementsByTagName('img');
+    for(var i=aImg.length-1;i>-1;i--){
+        aImg[i].style.left=aImg[i].offsetLeft+'px';
+        aImg[i].style.top=aImg[i].offsetTop+'px';
+        aImg[i].style.position = 'absolute';
+        aImg[i].pos = {                      //保存原始位置值  一个元素两个属性，较为复杂， 保存在一个个对象中
+            left:aImg[i].offsetLeft,        //属性也可以是个对象？？？？？？
+            top :aImg[i].offsetTop
+        };
+        aImg[i].style.margin = 0;
+    }  //定位转换 加left和top
+
+    for(var i=0;i<aImg.length;i++){
+        drug(aImg[i]);
+    }  //赋予拖拽
+
+    var z=0;
+    var aCollide =[];
+    var oNear;
+    var collideResult;
+    function drug (elem){
+        elem.onmousedown = function (e){
+            e = e||window.event;
+            iDisX = e.clientX-elem.offsetLeft;  //鼠标到div距离
+            iDisY = e.clientY-elem.offsetTop;
+            document.onmousemove = function(e){
+                elem.style.zIndex = z++;
+                e = e||window.event;
+                var iLeft = e.clientX-iDisX;   //div到body的距离
+                var iTop = e.clientY-iDisY;
+
+                elem.style.left = iLeft+'px';
+                elem.style.top = iTop+'px';
+
+                //碰撞检测  注意逻辑
+                for(var i=0;i<aImg.length;i++){
+                    if(elem==aImg[i]){
+                        continue;
+                    }
+                    aImg[i].className = '';
+                     collideResult = collidetest(elem,aImg[i]);
+                    if(collideResult){
+                        aCollide.push(aImg[i]);    //getNearest(elem).className = 'collide';写这里呢？
+                    }
+                }
+
+                //交换元素-查找最近元素
+                if(aCollide.length>0) {          //在有碰撞元素的情况下  collideResult不行？
+                    oNear = getNearest(elem);
+                    oNear.className= 'collide';
+                    console.log(aCollide);
+                    aCollide=[];                    //为什么在这清空！！
+                    console.log(aCollide);
+                }else{
+                    oNear = null;
+                }
+
+                return false;       //返回为false，意思是阻止默认
+
+
+            };
+            document.onmouseup = function(){
+                document.onmousemove = null ;
+                document.onmouseup = null ;
+
+                //交换动画
+                if(oNear){
+                    animate(elem,{
+                        left: oNear.pos.left,   //这的.offsetleft行不行
+                        top: oNear.pos.top      //直接就.pos.top
+                    });
+                    animate(oNear,elem.pos);      //注意这个简化
+                    var tempPos =elem.pos;      //需要交换新的位置，交换的方法传给一个第三方变量
+                    elem.pos =oNear.pos;
+                    oNear.pos= tempPos;
+                    oNear.className = ''; //我的不能清空？？
+                }else{
+                    animate(elem,elem.pos);
+                }
+
+            }
+        }
+    }   //拖拽函数
+
+
+    //碰撞检测函数
+    function collidetest (elem,target){
+        var iTargetL = target.offsetLeft,
+                iTargetR = target.offsetLeft+target.offsetWidth,
+                iTargetT = target.offsetTop,
+                iTargetB = target.offsetTop+target.offsetHeight;
+        var iElemL =elem.offsetLeft,
+                iElemR =elem.offsetLeft+elem.offsetWidth,
+                iElemT =elem.offsetTop,
+                iElemB =elem.offsetTop+elem.offsetHeight;
+        if(iElemL>iTargetR || iElemR<iTargetL || iElemT>iTargetB || iElemB<iTargetT){
+            return false;
+        }
+        return true;
+    }
+
+    //计算距离函数
+    function getDis (elem,target){
+        var iLeft = elem.offsetLeft-target.offsetLeft,
+                iTop = elem.offsetTop-target.offsetTop;
+        var dis = Math.sqrt(iLeft*iLeft+iTop*iTop);
+        return dis;
+    }      //名字是get说明函数有返回值
+
+    //在数组中找最近元素 函数
+    function getNearest(elem){
+        var iMinidis = getDis(elem,aCollide[0]);      //这里的转换思想，通过距离找元素，通过元素找距离
+        var iNearestElem = aCollide[0];
+        for(var i=0;i<aCollide.length;i++){
+            var iDis = getDis(elem,aCollide[i]);
+            if(iDis<iMinidis){
+                iMinidis = iDis;
+                iNearestElem = aCollide[i];
+            }
+        }
+        return iNearestElem;
+    }
+
+</script>
+</body>
+</html>
