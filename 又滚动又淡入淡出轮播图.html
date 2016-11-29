@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    ul{
+        list-style: none;
+    }
+    body{
+        background: #000000;
+    }
+    #container{
+        width: 600px;
+        height: 600px;
+        overflow: hidden;
+        margin : 40px auto;
+        position: relative;
+
+    }
+    #concent{
+        width: 600px;
+        height: 450px;
+    }
+    #concent img{
+        width: 600px;
+        height: 450px;
+        position: absolute;
+    }
+
+    #black{
+        width: 600px;
+        height: 20px;
+        background: #000000;
+        opacity: 0.5;
+        color: #ffffff;
+        text-align:right;
+        position: absolute;
+        top: 430px;
+        z-index: 99999;
+    }
+
+    #tab{
+        width: 1190px;
+        height: 150px;
+        background: #ffffff;
+        position: relative;
+    }
+    #tab li{
+        float: left;
+        width: 137.5px;
+        height: 130px;
+        margin:10px 0 10px 10px;
+        opacity: 0.5;
+    }
+    #tab img{
+        width: 137.5px;
+        height: 130px;
+    }
+    #tab .selected2{
+        opacity: 1;
+    }
+
+    #arrows{
+        /*color: #ffffff;*/
+
+        /*width: 60px;*/
+        /*height: 60px;*/
+        /*position: absolute;*/
+        /*top: 200px;*/
+        /*z-index: 9999;*/
+
+        /*background-image: url("imgs/btn.gif") ;*/
+        /*background-repeat: no-repeat;*/
+
+
+    }
+    #next{
+        background-image: url("imgs/btn.gif") ;
+        background-repeat: no-repeat;
+        background-position: 0 -60px ;
+
+        width: 60px;
+        height: 60px;
+        /*background: #000;*/
+        opacity: 0;
+        position: absolute;
+        top: 200px;
+        right: 0;
+        z-index: 99999;
+
+
+    }
+    #prev{
+        background-image: url("imgs/btn.gif") ;
+        background-repeat: no-repeat;
+        background-position: ;
+
+        width: 60px;
+        height: 60px;
+        /*background: #000;*/
+        position: absolute;
+        top: 200px;
+        z-index: 99999;
+
+        opacity: 0;
+    }
+
+</style>
+
+</head>
+<body>
+<div id="container">
+    <div id="concent">
+        <img class="selected1" src="imgs/1.jpg" alt=""/>
+        <img src="imgs/2.jpg" alt=""/>
+        <img src="imgs/3.jpg" alt=""/>
+        <img src="imgs/4.jpg" alt=""/>
+        <img src="imgs/5.jpg" alt=""/>
+        <img src="imgs/6.jpg" alt=""/>
+        <img src="imgs/7.jpg" alt=""/>
+        <img src="imgs/8.jpg" alt=""/>
+
+    </div>
+    <div id="black"> 1/8 </div>
+    <ul id="tab">
+        <li  class="selected2"><img src="imgs/1.jpg" alt=""/></li>
+        <li><img src="imgs/2.jpg" alt=""/></li>
+        <li><img src="imgs/3.jpg" alt=""/></li>
+        <li><img src="imgs/4.jpg" alt=""/></li>
+        <li><img src="imgs/5.jpg" alt=""/></li>
+        <li><img src="imgs/6.jpg" alt=""/></li>
+        <li><img src="imgs/7.jpg" alt=""/></li>
+        <li><img src="imgs/8.jpg" alt=""/></li>
+    </ul>
+    <div id="arrows">
+        <div id="prev">  </div>
+        <div id="next">  </div>
+    </div>
+</div>
+
+<script src="jslib.js"></script>
+<script>
+    var oTab = document.getElementById('tab');
+    var aLi = oTab.getElementsByTagName('li');
+    var oContainer = document.getElementById('container');
+    var aImg = oContainer.getElementsByTagName('img');
+    var oArrows = document.getElementById('arrows');
+    var oNext = document.getElementById('next');
+    var oPrev = document.getElementById('prev');
+    var oBlack = document.getElementById('black');
+
+    var iNow = 0;
+    var zindex = 8;
+    var iImgwidth =147.5;
+    for(var i=0;i<aLi.length;i++){
+        aLi[i].onmousemove=function(){
+            for(var i=0;i<aLi.length;i++){
+                aLi[i].className = '';
+            }
+            this.className = 'selected2';
+            aLi[iNow].className = 'selected2';
+        };
+        aLi[i].onmouseout=function(){
+            for(var i=0;i<aLi.length;i++){
+                aLi[i].className = '';
+            }
+            aLi[iNow].className = 'selected2';
+        }
+    }
+
+    for(var i=0;i<aLi.length;i++){
+        aLi[i].index= i;
+        aImg[i].style.zIndex = 8 - i;
+        aLi[i].onclick=function(){
+            iNow = this.index;
+            changeimg(iNow);
+        }
+    }
+
+    oPrev.onmouseover=oNext.onmouseover = function(){
+        if(this==oNext){
+            animate(this,{opacity:80});
+        }else{
+            animate(this,{opacity:80});
+        }
+    };
+    oPrev.onmouseout=oNext.onmouseout = function(){
+        if(this==oNext){
+            animate(this,{opacity:0});
+        }else{
+            animate(this,{opacity:0});
+        }
+    };
+
+
+    oNext.onclick= function(){
+        iNow++;
+        if(iNow==8){
+            iNow=0;
+        }
+        changeimg(iNow);
+    };
+
+    oPrev.onclick= function(){
+        iNow--;
+        if(iNow==-1){
+            iNow=7;
+        }
+        changeimg(iNow);
+    };
+
+    function changeimg(elem){
+        console.log(11);
+        for(var i=0;i<aLi.length;i++){
+            aLi[i].className = '';
+        }
+        aLi[elem].className = 'selected2';
+        oBlack.innerHTML = iNow+1+'/8';
+        aImg[elem].style.zIndex = zindex++;
+        aImg[elem].style.opacity = 0;
+        animate(aImg[elem],{opacity:100});
+        if(elem>0&&elem<6){
+
+            animate(oTab,{left:-(elem-1)*iImgwidth})
+        }
+        if(iNow==7){
+            animate(oTab,{left:-4*iImgwidth})
+        }
+        if(iNow==0){
+            animate(oTab,{left:0})
+        }
+    }
+
+    var timer;
+    function run(){
+        timer=setInterval(
+                function(){
+                    oNext.onclick();
+                },1500
+        )
+    }
+    run();
+    oContainer.onmouseover=function(){
+        clearInterval(timer);
+    };
+    oContainer.onmouseout=function(){
+        run();
+    };
+
+
+
+
+
+</script>
+</body>
+</html>
